@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [1 -eq 1]; then
+  echo say hello
+  fi
