@@ -1,5 +1,5 @@
 #!/bin/bash
 
-if [1-eq1];then
+if [1==1];then
   echo hello
 fi
