@@ -21,4 +21,4 @@ echo Today date is updated as $DATE
  echo all values of the array=${c[*]}
  echo  count the variables=${#c[*]}
 
- echo Training=${TRAINING}
+ echo Training=${hello}
