@@ -1,6 +1,6 @@
 #!/bin/bash
-
-if [1 -eq 1]
+a="abc"
+if ["$a"-eq "abc"]
 then
   echo hello
 fi
