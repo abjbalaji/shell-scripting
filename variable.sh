@@ -19,4 +19,4 @@ echo Today date is updated as $DATE
  c=(10 20 small big)
  echo First value of the array=${c[0]}
  echo all values of the array=${c[*]}
- echo  count the variables=${c[#]}
+ echo  count the variables=${#c[*]}
