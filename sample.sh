@@ -1,4 +1,3 @@
 #!/bin/bash
 
-echo say hello
-echo bye
+echo HELLO WORLD
