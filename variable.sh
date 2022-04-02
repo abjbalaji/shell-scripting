@@ -7,4 +7,4 @@ echo ${a}times
 echo ${b}
 
 DATE=02-04-2022
-echo $DATE
+echo today date is $DATE
