@@ -1,6 +1,6 @@
-
+#!/bin/bash
 
 echo HELLO WORLD
-echo My Name is Avvaru Balaji
+echo -e "\e[34mMy Name is Avvaru Balaji\e[0m"
 
-echo $SHELL
+
