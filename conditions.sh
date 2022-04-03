@@ -2,9 +2,17 @@
 a="abc"
 if [ "$a"=="abc" ]
 then
-  echo both are equal
+  echo 1.both are equal
 fi
 if [ "$a"!="abc" ]
 then
-  echo both are not equal
+  echo 2.both are not equal
+fi
+if [ -z "$a" ]
+then
+  echo 3. a having some date
+fi
+if [ -z "$b" ]
+then
+  echo 4. b having empty date
 fi
