@@ -1,6 +1,10 @@
 #!/bin/bash
-
-if [ 1 -eq 1 ]
+a="abc"
+if [ "$a"=="abc" ]
 then
-  echo hello
+  echo both are equal
+fi
+if [ "$a"!="abc" ]
+then
+  echo both are not equal
 fi
