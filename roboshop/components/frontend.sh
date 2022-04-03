@@ -11,6 +11,8 @@ StatCheck(){
 print(){
   echo -e "\e[32m $1 \e[0m"
 }
+LOG_FILE=/tmp/roboshop.log
+rm -f $LOG_FILE
 USER_ID=$(id -u)
 if [ "$USER_ID" -ne 0]
 then
@@ -18,27 +20,27 @@ then
   exit 1
 fi
 print "Installing Nginx"
-yum install nginx -y
+yum install nginx -y >>$LOG_FILE
 StatCheck $?
 
 print "Downloading Nginx package"
-curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip"
+curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip" >>$LOG_FILE
 StatCheck $?
 
 print "Cleaning old Nginx files "
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* >>$LOG_FILE
 StatCheck $?
 
-cd /usr/share/nginx/html/
+cd /usr/share/nginx/html/ >>$LOG_FILE
 
 print "Extracting Zip file and Moving the files"
-unzip /tmp/frontend.zip && mv frontend-main/* . && mv static/* .
+unzip /tmp/frontend.zip >>$LOG_FILE && mv frontend-main/* . >>$LOG_FILE && mv static/* . >>$LOG_FILE
 StatCheck $?
 
 print "Updating roboshop configuration"
-mv localhost.conf /etc/nginx/default.d/roboshop.conf
+mv localhost.conf /etc/nginx/default.d/roboshop.conf >>$LOG_FILE
 StatCheck $?
 
 print "Starting Nginx"
-systemctl restart nginx && systemctl enable nginx
+systemctl restart nginx >>$LOG_FILE && systemctl enable nginx >>$LOG_FILE
 StatCheck $?
