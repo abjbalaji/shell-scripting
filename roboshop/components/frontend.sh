@@ -42,6 +42,7 @@ mv localhost.conf /etc/nginx/default.d/roboshop.conf
 echo -e "\e[32mStarting Nginx\e[0m"
 systemctl restart nginx
 systemctl enable nginx
+if [ $? -eq 0 ]; then
 echo -e "\e[34mSUCCESS\e[0m"
 else
   echo -e "\e[31mFAILURE\e[0m"
