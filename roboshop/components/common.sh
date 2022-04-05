@@ -19,3 +19,5 @@ then
   echo you should run with root user
   exit 1
 fi
+
+APP_USER=roboshop
