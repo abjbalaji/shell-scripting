@@ -33,3 +33,7 @@ StatCheck $?
 print " Installing NPM"
 cd /home/roboshop/catalogue &>>LOG_FILE && npm install &>>LOG_FILE
 StatCheck $?
+
+print "Fix App ser permissions"
+chown -R ${APP_USER}: ${APP_USER} /home/${APP_USER}
+StatCheck $?
