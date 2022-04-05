@@ -11,7 +11,11 @@ yum install nodejs gcc-c++ -y &>>LOG_FILE
 StatCheck $?
 
 print "Adding an User"
+id ${APP_USER} &>>LOG_FILE
+if [ $? -ne 0 ]
+then
 useradd ${APP_USER} &>>LOG_FILE
+fi
 StatCheck $?
 
 print "Download application content"
@@ -19,11 +23,11 @@ curl -f -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/
 StatCheck $?
 
 print "Cleaning old files "
-rm -rf /home/roboshop/catalogue &>>$LOG_FILE
+rm -rf /home/${APP_USER}/catalogue &>>$LOG_FILE
 StatCheck $?
 
 print "Extracting App content"
-cd /home/roboshop &>>LOG_FILE && unzip -o /tmp/catalogue.zip &>>LOG_FILE && mv catalogue-main catalogue &>>LOG_FILE
+cd /home/${APP_USER} &>>LOG_FILE && unzip -o /tmp/catalogue.zip &>>LOG_FILE && mv catalogue-main catalogue &>>LOG_FILE
 StatCheck $?
 
 print " Installing NPM"
