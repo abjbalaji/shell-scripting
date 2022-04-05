@@ -14,7 +14,7 @@ print(){
 LOG_FILE=/tmp/roboshop.log
 rm -f $LOG_FILE
 USER_ID=$(id -u)
-if [ "$USER_ID" -ne 0]
+if [ "$USER_ID" -ne 0 ]
 then
   echo you should run with root user
   exit 1
