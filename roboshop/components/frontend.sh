@@ -20,10 +20,10 @@ unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* . &>>$LOG_FILE && mv 
 StatCheck $?
 
 print "Updating roboshop configuration"
-mv localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
+mv localhost.conf /etc/nginx/default.d/${APP_USER}.conf &>>$LOG_FILE
 for component in catalogue user cart ; do
   echo -e " Updating ${component} configuration"
-sed -i -e "/${compoent}/s/localhost/${component}.roboshop.internal/"  /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
+sed -i -e "/${compoent}/s/localhost/${component}.roboshop.internal/"  /etc/nginx/default.d/${APP_USER}.conf &>>$LOG_FILE
 StatCheck $?
 done
 
