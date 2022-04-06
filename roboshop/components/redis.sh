@@ -16,3 +16,6 @@ if [ -f /etc/redis/redis.conf ]; then
  sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
 fi
 StatCheck $?
+print "Starting Redis"
+systemctl enable redis &>>LOG_FILE && systemctl start redis &>>LOG_FILE
+StatCheck $?
