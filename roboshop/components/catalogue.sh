@@ -31,5 +31,5 @@ cd /home/${APP_USER} &>>LOG_FILE && unzip -o /tmp/catalogue.zip &>>LOG_FILE && m
 StatCheck $?
 
 print " Installing NPM"
-cd /home/roboshop/catalogue &>>LOG_FILE && npm install &>>LOG_FILE
+cd /home/${APP_USER}/catalogue &>>LOG_FILE && npm install &>>LOG_FILE
 StatCheck $?
