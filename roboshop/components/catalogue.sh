@@ -33,3 +33,11 @@ StatCheck $?
 print " Installing NPM"
 cd /home/${APP_USER}/catalogue &>>LOG_FILE && npm install &>>LOG_FILE
 StatCheck $?
+
+print "Set Up Systemd Service"
+sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' /home/roboshop/catalogue/systemd.service &>>LOG_FILE
+StatCheck $?
+
+print " Moving Systemd File and Restarting Catalogue"
+mv /home/roboshop/catalogue/systemd.service /etc/systemd/system/catalogue.service &>>LOG_FILE && systemctl daemon-reload &>>LOG_FILE && systemctl start catalogue &>>LOG_FILE && systemctl enable catalogue &>>LOG_FILE
+StatCheck $?
