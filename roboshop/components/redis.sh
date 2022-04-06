@@ -8,7 +8,7 @@ print "Installing Redis"
 yum install redis -y &>>LOG_FILE
 StatCheck $?
 
-print" Updating Redis Configuration"
+print " Updating Redis Configuration"
 if [ -f /etc/redis.conf ]; then
   sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis.conf
 fi
