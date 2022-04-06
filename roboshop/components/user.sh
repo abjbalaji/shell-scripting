@@ -1,5 +1,6 @@
 #!/bin/bash
 
 source components/common.sh
-COMPONENT=catalogue
+
+COMPONENT=user
 NODEJS
