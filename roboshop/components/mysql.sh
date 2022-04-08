@@ -37,5 +37,5 @@ print "Extract the Schema"
 cd /tmp && unzip mysql.zip &>>${LOG_FILE}
 StatCheck $?
 print " Loading the Shema"
-cd mysql-main && mysql -u root -pRoboShop@1 <shipping.sql >>${LOG_FILE}
+cd mysql-main && mysql -uroot -pRoboshop@1 <shipping.sql >>${LOG_FILE}
 StatCheck $?
