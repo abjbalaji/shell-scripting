@@ -26,7 +26,7 @@ echo show plugins | mysql -uroot -pRoboshop@1 2>>${LOG_FILE}| grep validate_pass
 if [ $? -eq 0 ]; then
   print " uninstall password validation plugins"
   echo 'uninstall plugin validate_password;'>/tmp/pass-vali.sql
-  mysql --connection expired password -uroot -pRoboshop@1 </tmp/pass-vali/sql &>>${LOG_FILE}
+  mysql --connection expired password -uroot -pRoboshop@1 </tmp/pass-vali.sql &>>${LOG_FILE}
   StatCheck $?
 fi
 #```sql
