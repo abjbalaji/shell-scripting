@@ -21,25 +21,15 @@ then
 fi
 
 APP_USER=roboshop
-
-NODEJS(){
-  print " Configure YUM Reps"
-  curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>LOG_FILE
-  StatCheck $?
-
-  print " Installing NodeJS"
-  yum install nodejs gcc-c++ -y &>>LOG_FILE
-  StatCheck $?
-
-  print "Adding an User"
+APP_SETUP(){
+print "Adding an User"
   id ${APP_USER} &>>LOG_FILE
   if [ $? -ne 0 ]
   then
   useradd ${APP_USER} &>>LOG_FILE
   fi
   StatCheck $?
-
-  print "Download application content"
+print "Download application content"
   curl -f -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>LOG_FILE
   StatCheck $?
 
@@ -50,18 +40,54 @@ NODEJS(){
   print "Extracting App content"
   cd /home/${APP_USER} &>>LOG_FILE && unzip -o /tmp/${COMPONENT}.zip &>>LOG_FILE && mv ${COMPONENT}-main ${COMPONENT} &>>LOG_FILE
   StatCheck $?
+}
+
+SERVICE_SETUP(){
+   print "Set Up Systemd Service"
+
+    sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' \
+          -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' \
+          -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' \
+          -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/'\
+           -e 's/CARTENDPOINT/cart.roboshop.internal/'\
+           -e 's/DBHOST/mysql.roboshop.internal/' \
+           /home/roboshop/${COMPONENT}/systemd.service &>>LOG_FILE
+    StatCheck $?
+
+    print " Moving Systemd File and Restarting "
+    mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>LOG_FILE && systemctl daemon-reload &>>LOG_FILE && systemctl start ${COMPONENT} &>>LOG_FILE && systemctl enable ${COMPONENT} &>>LOG_FILE
+    StatCheck $?
+
+}
+NODEJS(){
+  print " Configure YUM Reps"
+  curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>LOG_FILE
+  StatCheck $?
+
+  print " Installing NodeJS"
+  yum install nodejs gcc-c++ -y &>>LOG_FILE
+  StatCheck $?
+
+APP_SETUP
 
   print " Installing NPM"
   cd /home/${APP_USER}/${COMPONENT} &>>LOG_FILE && npm install &>>LOG_FILE
   StatCheck $?
 
-  print "Set Up Systemd Service"
-
-  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' /home/roboshop/${COMPONENT}/systemd.service &>>LOG_FILE
-  StatCheck $?
-
-  print " Moving Systemd File and Restarting "
-  mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service &>>LOG_FILE && systemctl daemon-reload &>>LOG_FILE && systemctl start ${COMPONENT} &>>LOG_FILE && systemctl enable ${COMPONENT} &>>LOG_FILE
-  StatCheck $?
+ SERVICE_SETUP
 
 }
+
+MAVEN(){
+
+print " Install MAVEN"
+yum install maven -y &>>${LOG_FILE}
+StatCheck $?
+
+APP_SETUP
+
+print "Maven Packaging"
+cd /home/${APP_USER}/${COMPONENRT} && mvn clean package &>>LOG_FILE mv target/shipping-1.0.jar shipping.jar &>>LOG_FILE
+StatCheck $?
+
+SERVICE_SETUP
