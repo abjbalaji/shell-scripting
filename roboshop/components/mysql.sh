@@ -14,7 +14,7 @@ print "Starting MySQL"
 systemctl enable mysqld &>>LOG_FILE &&systemctl start mysqld &>>LOG_FILE
 StatCheck $?
 echo " SET PASSWORD FOR 'root'@'localhost' = PASSWORD('Roboshop@1');" >/tmp/rootpass.sql
-DEFAULT_ROOT_PASS=${grep 'temporary password' /var/log/mysqld.log} | awk '{ print $NF }'
+DEFAULT_ROOT_PASS=${grep 'temporary password' /var/log/mysqld.log} | awk '{print $NF}'
 mysql --connect-expired-password -uroot -p"${DEFAULT_ROOT_PASS}" </tmp/rootpass.sql
 
 
