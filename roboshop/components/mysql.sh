@@ -30,29 +30,12 @@ if [ $? -eq 0 ]; then
   mysql --connect-expired-password -uroot -pRoboshop@1 </tmp/pass-vali.sql &>>${LOG_FILE}
   StatCheck $?
 fi
-#```sql
-#> uninstall plugin validate_password;
-#```
-#
-### **Setup Needed for Application.**
-#
-#As per the architecture diagram, MySQL is needed by
-#
-#- Shipping Service
-#
-#So we need to load that schema into the database, So those applications will detect them and run accordingly.
-#
-#To download schema, Use the following command
-#
-#```bash
-## curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
-#```
-#
-#Load the schema for Services.
-#
-#```bash
-## cd /tmp
-## unzip mysql.zip
-## cd mysql-main
-## mysql -u root -pRoboShop@1 <shipping.sql
-#```
+print "Downloading Schema"
+curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>${LOG_FILE}
+StatCheck $?
+print "Extract the Schema"
+cd /tmp &>>${LOG_FILE} && unzip mysql.zip &>>${LOG_FILE}
+StatCheck $?
+print " Loading the Shema"
+cd mysql-main >>${LOG_FILE} && mysql -u root -pRoboShop@1 <shipping.sql >>${LOG_FILE}
+StatCheck $?
