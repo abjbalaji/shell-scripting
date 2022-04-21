@@ -1,1 +1,6 @@
-##############
+-  name: Sample play
+   hosts: all
+   tasks:
+     -  name: Print Hello World
+        ansible.builtin.debug:
+          msg: say good bye
